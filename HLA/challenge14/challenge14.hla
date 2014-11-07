@@ -1,0 +1,45 @@
+/*
+ * HLA Starter
+ *
+ * written by			Gary Pacheco
+ * created on			November 30, 2011
+ * last modified on		November 30, 2011
+ *
+ */
+program Challenge14;
+
+#include("stdlib.hhf");
+
+type
+	slNode: record
+		number: int32;
+		nextNode: pointer to slNode;
+	endrecord;
+
+static
+	headNode: pointer to slNode:= NULL;
+	
+begin Challenge14;
+
+stdout.put("How many values do you want enter?");
+//first node --The head node
+mem.alloc(@size(slNode));
+
+
+
+end Challenge14;
+
+
+Declare an HLA record type to represent a node in a singly-linked list that will be used to manage int32 values.
+Use a type declaration to create an alias for a pointer to your singly-linked list node record.
+Use your alias to declare a pointer to the first/head node of a singly-linked list and initialize this pointer to null.
+Use a loop to allow the user to add values to a singly-linked list. For each new value the user wants to enter, you must:
+	allocate memory for a node in which you can store the user's value
+	null out the next node pointer in this new node
+	connect this node to the current front/head of the linked list
+	make this new node the new front/head of the linked list
+	prompt for, read in, and store the user input into this node
+When the user chooses to stop adding new values to the list:
+	display all of the data in the linked list (the address of the node itself, the number stored in the node, and address value for the next node)
+	free all of the memory associated with the list
+end the program

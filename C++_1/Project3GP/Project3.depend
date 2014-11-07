@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1284484632 source:c:\users\owner\documents\programming c++\project3gp\cinreader.cpp
+	"CinReader.h"
+
+1284484640 c:\users\owner\documents\programming c++\project3gp\cinreader.h
+	<iostream>
+	<string>
+	<algorithm>
+	<climits>
+	<sstream>
+
+1285871118 source:c:\users\owner\documents\programming c++\project3gp\main.cpp
+	<iostream>
+	"CinReader.h"
+

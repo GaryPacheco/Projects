@@ -1,0 +1,12 @@
+Complete the Calculator Class.
+Information about the Class is in the interface file (calculator.h)
+Notes:
+The only file you need to change is calculator.cpp
+
+A Makefile has been provided. On Windows you need to use "mingw32-make" instead of "make"
+
+Use the Windows PowerShell for your console. (Click on "Start" and start typing Powershell)
+It should be blue with white text.
+From there: cd Desktop\Calculator
+
+In windows you use the command "clear" to clear the screen.

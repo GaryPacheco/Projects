@@ -1,0 +1,43 @@
+# depslib dependency file v1.0
+1284051418 source:c:\users\mc146u13\desktop\project2gp\cinreader.cpp
+	"CinReader.h"
+
+1284051424 c:\users\mc146u13\desktop\project2gp\cinreader.h
+	<iostream>
+	<string>
+	<algorithm>
+	<climits>
+	<sstream>
+
+1284489029 source:c:\users\mc146u13\desktop\project2gp\main.cpp
+	<iostream>
+	"CinReader.h"
+	<ctime>
+	<cstdlib>
+
+1284051418 source:f:\programming\gary\project2gp\cinreader.cpp
+	"CinReader.h"
+
+1284051424 f:\programming\gary\project2gp\cinreader.h
+	<iostream>
+	<string>
+	<algorithm>
+	<climits>
+	<sstream>
+
+1284657489 source:c:\users\owner\documents\programming c++\project2gp\main.cpp
+	<iostream>
+	"CinReader.h"
+	<ctime>
+	<cstdlib>
+
+1284051424 c:\users\owner\documents\programming c++\project2gp\cinreader.h
+	<iostream>
+	<string>
+	<algorithm>
+	<climits>
+	<sstream>
+
+1284051418 source:c:\users\owner\documents\programming c++\project2gp\cinreader.cpp
+	"CinReader.h"
+

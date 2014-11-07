@@ -1,0 +1,48 @@
+program StackTest;
+
+#include ("stdlib.hhf");
+
+begin StackTest;
+
+	stdout.put("Stack Test", nl, nl);
+	
+	stdout.put("stack at start: ", ESP, nl);
+	
+	push(EAX);
+	stdout.put("stack after a push: ", ESP, nl);
+
+	pop(EDX);
+	stdout.put("stack after a pop: ", ESP, nl);
+	
+	mov(0, ECX);
+	forever
+	
+		stdout.put("enter an uns32 (0 to quit): ");
+		stdin.getu32();
+		breakif (EAX == 0);
+		inc(ECX);
+		push(EAX);
+		
+	endfor;
+	
+	forever
+		breakif(ECX == 0);
+		
+		mov([ESP], EAX);//this is right
+		//mov(ESP, EAX); //this is wrong
+		
+		stdout.put(ESP, " : ", (type uns32 [ESP]), nl);
+		
+		add(4,ESP);
+		
+		dec(ECX);
+	endfor;
+
+	/*forever
+		breakif(ECX == 0);
+		pop(EAX);
+		stdout.put(ESP, " : ", (type uns32 EAX), nl);
+		dec(ECX);
+	endfor;
+	*/
+end StackTest;

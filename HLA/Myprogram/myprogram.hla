@@ -1,0 +1,40 @@
+program myProgram;
+
+#include ("stdlib.hhf");
+
+static
+	myArray: dword;
+
+procedure init(baseAddr: dword; arraySize: uns32);
+begin init;
+
+	push(EAX);
+	push(ECX);
+	mov(baseAddr, EAX);
+	for(mov(0,ECX); ECX < arraySize; inc(ECX)) do
+		mov(0, (type int16 [EAX+ECX*2]));
+	endfor;
+	
+	pop(ECX);
+	pop(EAX);
+end init;
+begin myProgram;
+
+	forever
+		stdout.put("Enter a size (1-10, 0 to quit): ");
+		stdin.getu32();
+		breakif(EAX == 0);
+		
+		
+		mov(EAX, EBX);
+		mem.alloc(EBX*2);
+		mov(EAX, myArray);
+		init(EAX, EBX);
+		
+		mov(myArray, EAX);
+		mem.free(EAX);
+	endfor;
+
+
+
+end myProgram;

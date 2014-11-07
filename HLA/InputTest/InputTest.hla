@@ -1,0 +1,24 @@
+program InputTest;
+
+#include ("stdlib.hhf")
+
+begin InputTest;
+
+	stdout.put("input test", nl, nl);
+	
+	forever	
+		stdout.put("enter an uns32 value: ");
+		try
+			stdin.getu32();
+			stdout.put("thank you", nl, nl);
+			unprotected break;
+		anyexception
+			stdout.put("that is not a valid uns32", nl, nl);
+		endtry;
+		
+	endfor;
+
+
+
+
+end InputTest;

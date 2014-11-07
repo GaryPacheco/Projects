@@ -1,0 +1,321 @@
+/*
+ * Project Three
+ *
+ * written by		Gary Pacheco
+ * created on		7 November 2011
+ * last modified on	16 November 2011
+ *
+ *
+ * Developed in conjunction with 
+ * Josh Pollastrini
+ * Cheyanne Taylor
+ * Jonathan Wortham
+ * 
+ * Sources Used:
+ * Josh Pollastrini - Student
+ * Jonathan Wortham - Student
+ * Cheyanne Taylor - Student
+ * Boyd Trolinger - Teacher
+ * The Art of Assembly Language
+ *
+ */
+
+program Project3;
+
+#include("stdlib.hhf");
+
+static
+	arrayAddr:	dword;
+	arraySize:	uns32;
+	numEle:		uns32;
+	eleResult: 	int16;
+	minEle: 	int16;
+	maxEle: 	int16;
+
+procedure init(baseAddr: dword; arraySize: uns32);
+begin init;
+
+	push(ecx);
+	push(eax);
+	
+	mov(baseAddr, eax);
+	for (mov(0, ecx); ecx < arraySize; add(2, ecx)) do
+		mov(0, (type int16 [eax + ecx] ));
+	endfor;
+	
+	pop(eax);
+	pop(ecx);
+	
+end init;
+
+procedure sum(baseAddr: dword; arraySize: uns32);
+begin sum;
+	push(ecx);
+	push(eax);
+	push(ebx);
+	push(edx);
+
+	mov(0, edx);
+	
+	for (mov(0, ecx); ecx < arraySize; add(2, ecx)) do
+		add((type int16 [eax + ecx]), dx);
+	endfor;
+
+	stdout.put(nl, "The sum of the cells is: ", (type int16 dx), nl);
+	
+	pop(edx);
+	pop(ebx);
+	pop(eax);
+	pop(ecx);
+end sum;
+
+procedure avg(baseAddr: dword; arraySize: uns32);
+begin avg;
+
+	push(ecx);
+	push(eax);
+	push(ebx);
+	push(edx);
+	
+	mov(0, edx);
+	
+	for (mov(0, ecx); ecx < arraySize; add(2, ecx)) do
+		add((type int16 [eax + ecx]), dx);
+	endfor;
+	
+	mov(edx,eax);
+	mov(numEle, ebx);
+	mov(0, edx);
+	div(bx, dx:ax);
+	
+	stdout.put(nl, "The cell average is: ", (type uns16 ax));
+	
+	pop(edx);
+	pop(ebx);
+	pop(eax);
+	pop(ecx);
+	
+end avg;
+
+procedure findMin(baseAddr: dword; arraySize: uns32);
+begin findMin;
+
+	push(eax);
+	push(ebx);
+	push(ecx);
+	push(edx);
+
+	mov((type int16[eax]), minEle);
+	mov(minEle, dx);
+	
+	for(mov(0,ecx); ecx < arraySize; add(2, ecx))do
+		if((type int16 [eax+ecx]) <= dx)then
+			mov((type int16 [eax+ecx]), minEle);
+			mov(minEle, dx);
+		endif;
+	endfor;
+
+	stdout.put(nl, "The cell minimum is: ", minEle);
+
+	pop(edx);
+	pop(ecx);
+	pop(ebx);
+	pop(eax);
+	
+end findMin;
+
+procedure findMax(baseAddr: dword; arraySize: uns32);
+begin findMax;
+
+	push(eax);
+	push(ebx);
+	push(ecx);
+	push(edx);
+
+	mov((type int16[eax]), maxEle);
+	mov(maxEle, dx);
+	
+	for(mov(0,ecx); ecx < arraySize; add(2, ecx))do
+		if((type int16 [eax+ecx]) >= dx)then
+			mov((type int16 [eax+ecx]), maxEle);
+			mov(maxEle, dx);
+		endif;
+	endfor;
+
+	stdout.put(nl, "The cell maximum is: ", maxEle);
+
+	pop(edx);
+	pop(ecx);
+	pop(ebx);
+	pop(eax);
+	
+end findMax;
+
+begin Project3;
+
+
+	//clear registers
+	mov(0, eax);
+	mov(0, ebx);
+	mov(0, ecx);
+	mov(0, edx);
+
+	stdout.put(nl, "Welcome to Cell Calculator!");
+	
+	forever
+		//loop to allow min and max number of cells
+		stdout.put(nl, "How many cells would you like this calculator to have? (2-10): ");
+		stdin.getu8();
+		
+		if(eax >= 2 && eax <= 10) then
+			break;
+		else
+			stdout.put(nl, "Please enter a valid input");
+		endif;
+	endfor;
+	
+	//allocating memory
+	push(eax);
+	mov(eax, numEle);
+	intmul(@size(int16), eax);
+	mov(eax, arraySize);
+	pop(eax);
+	
+	mov(eax, ebx);
+	intmul(@size(int16), ebx);
+	mem.alloc(ebx);
+	mov(eax, arrayAddr);
+	
+	//set all values to 0
+	init(eax, ebx);
+	
+	forever
+		console.cls();
+		
+		//Creates cell numbers
+		push(ebx);
+		mov(0, ebx);
+		stdout.put("Cell: ", nl);
+		
+		for (mov(0, ecx); ecx < arraySize; add(2, ecx)) do
+			stdout.put((type uns32 ebx), stdio.tab);
+			inc(ebx);
+		endfor;
+		
+		stdout.put(nl, "******************************************************************************", nl);
+		
+		//Shows values in each cell		
+		pop(ebx);
+		mov(arrayAddr, ebx);
+		stdout.put(nl, "Value: ", nl);
+		
+		for (mov(0, ecx); ecx < arraySize; add(2, ecx)) do
+			stdout.put((type int16 [ebx + ecx]), stdio.tab);
+		endfor;
+		
+		//Menu
+		stdout.put(nl, "What would you like to do with these cells?");
+		stdout.put(nl, "[1] Edit Cells");
+		stdout.put(nl, "[2] View Sum");
+		stdout.put(nl, "[3] View Average");
+		stdout.put(nl, "[4] View Minimum");
+		stdout.put(nl, "[5] View Maximum");
+		stdout.put(nl, "[6] Reset All Cells");
+		stdout.put(nl, "[0] Quit");
+		stdout.put(nl, "Your Choice: ");
+		stdin.geti8();
+		
+		if(eax == 1) then
+			//Edit cells
+			stdout.put("Which cell would you like to edit?: ");
+			stdin.geti8();
+			
+			mul(2, eax);
+			
+			mov(arrayAddr, ebx);
+			stdout.put("The current value: ", (type int16 [ebx+eax]), nl);
+			stdout.put("Your new value: ");
+			
+			mov(eax, ecx);
+			stdin.getu16();
+			mov(ax, (type int16 [ebx+ecx]));
+			
+		elseif(eax == 2) then
+			//Adds Cells
+			push(eax);
+			push(ebx);
+			mov(arrayAddr, eax);
+			mov(arraySize, ebx);
+			
+			sum(eax, ebx);
+			
+			pop(ebx);
+			pop(eax);
+			stdout.put(nl, "Press enter to continue.");
+			stdin.readLn();
+			
+		elseif(eax == 3) then
+			//Average of Cells
+			push(eax);
+			push(ebx);
+			mov(arrayAddr, eax);
+			mov(arraySize, ebx);
+			
+			avg(eax, ebx);
+			
+			pop(ebx);
+			pop(eax);
+			stdout.put(nl, "Press enter to continue.");
+			stdin.readLn();
+			
+		elseif(eax == 4) then
+			//Minimum of all cells
+			push(eax);
+			push(ebx);
+			mov(arrayAddr, eax);
+			mov(arraySize, ebx);
+			
+			findMin(eax, ebx);
+			
+			pop(ebx);
+			pop(eax);
+			stdout.put(nl, "Press enter to continue.");
+			stdin.readLn();
+			
+		elseif(eax == 5) then
+			//Maximum of all cells
+			push(eax);
+			push(ebx);
+			mov(arrayAddr, eax);
+			mov(arraySize, ebx);
+			
+			findMax(eax, ebx);
+			
+			pop(ebx);
+			pop(eax);
+			stdout.put(nl, "Press enter to continue.");
+			stdin.readLn();
+			
+		elseif(eax == 6) then
+			//Resets cells back to 0
+			push(eax);
+			push(ebx);
+			mov(arrayAddr, eax);
+			mov(arraySize, ebx);
+			
+			init(eax, ebx);
+			
+			pop(ebx);
+			pop(eax);
+			
+		elseif(eax == 0) then
+			//breaks console
+			console.cls();
+			break;
+		endif;
+	endfor;
+	
+	//frees memory
+	mov(arrayAddr, eax);
+	mem.free(eax);
+end Project3;

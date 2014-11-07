@@ -1,0 +1,165 @@
+/*
+ * Programming Project Two
+ *
+ * written by			Jonathan Wortham
+ * created on			18 August 2011
+ * last modified on		21 August 2011
+ *
+ * The purpose of this program is to demonstrate understanding of x86
+ * aritmetic and bitwise logic instruction.
+ *
+ */
+
+program projectTwo;
+
+#include ("stdlib.hhf");
+
+static
+	inputValue: uns16;
+
+procedure showBinary(value: word);
+begin showBinary;
+
+	push(eax);
+	push(ecx);
+	
+	mov(value, ax);
+	stdout.put("%");
+	for(mov(0, cl); cl <16; inc(cl)) do
+		rol(1, ax);
+		if (@c) then
+			stdout.put("1");
+		else
+			stdout.put("0");
+		endif;
+	endfor;
+	
+	pop(ecx);
+	pop(eax);
+
+end showBinary;
+
+procedure showHex(value: word);
+begin showHex;
+
+push(eax);
+//decimal to hexidecimal using reduction
+mov(0, ax);
+mov(value, ax);
+mov(4096, bx);
+pushad();
+stdout.put(nl, "Your number is ", (type uns16 ax));
+for (mov(3, cl); cl >-1 ; dec(cl)) do
+	
+	pushad();
+	
+	
+	
+	if(ax <= 9)then
+		stdout.put((type uns16 ax));
+	endif;
+	if(ax==10) then
+		stdout.put("A");
+	elseif(ax==11) then
+		stdout.put("B");
+	elseif(ax==12) then
+		stdout.put("C");
+	elseif(ax==13) then
+		stdout.put("D");
+	elseif(ax==14) then
+		stdout.put("E");
+	elseif(ax==15) then
+		stdout.put("F");
+	endif;
+	pop(eax);
+			pop(ebx);
+	if (bx <= ax) then
+		popad();
+		stdout.put(nl, "[16^", (type uns8 cl), "] = ", (type uns16 bx));
+		stdout.put(nl, stdio.tab, (type uns16 ax));
+		
+		
+		//mov(ax, bx);
+		intmul(bx, dx);
+		stdout.put(" - ", (type uns16 bx));
+		
+		
+		sub(dx, ax);
+		stdout.put("= ", (type uns16 ax));
+		stdout.put(nl, stdio.tab, stdio.tab, " Output is: $");
+		
+	else
+		stdout.put(nl, "Skipping ", (type uns16 bx), " [16^", (type uns8 cl), "]", " output is: $");
+	endif;
+	popad();
+	
+	mov (0, edx);
+	div (bx, dx:ax);
+	push(edx);
+	
+	
+	mov(bx, ax);
+	mov(0, edx);
+	div(16, dx:ax);
+	mov(ax, bx);
+	pop(edx);
+	mov(dx, ax);
+	
+endfor;
+pop(eax);
+
+stdout.put(nl, "Your value in hex is --> $");
+stdout.put(ax);
+
+end showHex;
+
+procedure decToBinaryDivide(value: word);
+begin decToBinaryDivide;
+	push(eax);
+	push(edx);
+	stdout.put(nl, "Converting to binary by divide-by-two method: ");
+	
+	stdout.put(nl, "Your number is ", (type uns16 ax));
+	while(AX > 0) do
+		stdout.put(nl,(type uns16 ax), "/2 = ");
+		mov(0, DX);
+		div(2, DX:AX);
+		stdout.put((type uns16 ax));
+		stdout.put(nl, stdio.tab, "Remainder(or bit): ", (type uns16 DX));
+	endwhile;
+	
+	stdout.put(nl, "Then you flip the bit order ");
+	stdout.put(nl, (type uns16 value), " in Binary is: ");
+
+	pop(edx);
+	pop(eax);
+end decToBinaryDivide;
+
+begin projectTwo;
+
+mov(0, eax);
+mov(0, ebx);
+mov(0, ecx);
+mov(0, edx);
+
+stdout.put("Welcome to the bitwise logic trainer");
+stdout.put(nl, "[1] Convert Base-10 to Base-16");
+stdout.put(nl, "[2] Convert Base-10 to Base-2 (Reduction)");
+stdout.put(nl, "[3] Convert Base-10 to Base-2 (Divide by 2)");
+stdout.put(nl, "Please enter your Choice: ");
+stdin.geti8();
+mov(al, bl);
+
+stdout.put("enter a uns16 value: ");
+stdin.getu16(); //value
+mov(ax, inputValue);
+
+if (bx==1) then 
+	showHex(inputValue);
+elseif (bx ==2) then
+	stdout.put(nl, "not implemented");
+elseif (bx ==3) then
+	decToBinaryDivide(ax);
+	showBinary(ax);
+endif;
+end projectTwo;

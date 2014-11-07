@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1284485840 source:c:\users\mc146u13\desktop\inclasstest\main.cpp
+	<iostream>
+	"CinReader.h"
+
+1284484638 c:\users\mc146u13\desktop\inclasstest\cinreader.h
+	<iostream>
+	<string>
+	<algorithm>
+	<climits>
+	<sstream>
+
+1284484631 source:c:\users\mc146u13\desktop\inclasstest\cinreader.cpp
+	"CinReader.h"
+
+1284484632 source:c:\users\owner\documents\programming c++\menu-decision making\cinreader.cpp
+	"CinReader.h"
+
+1284484640 c:\users\owner\documents\programming c++\menu-decision making\cinreader.h
+	<iostream>
+	<string>
+	<algorithm>
+	<climits>
+	<sstream>
+

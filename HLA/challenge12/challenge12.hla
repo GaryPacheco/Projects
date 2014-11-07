@@ -1,0 +1,65 @@
+/*
+ * HLA Starter
+ *
+ * written by			Gary Pacheco
+ * created on			9 November 2011
+ * last modified on		9 November 2011
+ *
+ *Assitance:
+ *Cheyanne Taylor-Pacheco
+ *
+ * This program is to use mem.alloc and mem.free. The user inputs
+ * int8 values into the program and the program then stores the inputs
+ * into an array. The array is then used to display the stored values.
+ *
+ */
+
+program challenge12;
+
+#include("stdlib.hhf");
+
+static
+	myAddr: dword;
+
+procedure getInt8;
+begin getInt8;
+
+	forever
+	mov(0,EAX);
+		try
+			stdin.geti8();
+				unprotected break;
+			anyexception
+				stdout.put("That is not a valid input.");
+		endtry;
+	endfor;
+end getInt8;
+	
+begin challenge12;
+
+	mov(0,EAX);
+	mov(0,EBX);
+	mov(0,ECX);
+	mov(0,EDX);
+
+	stdout.put(nl,nl,"Hello user!",nl,nl);
+	
+	mem.alloc(@size (int8)*10);
+	mov(EAX, myAddr);
+	mov(EAX, EBX);
+	push(EAX);
+	
+	for(mov(0,ECX); ECX < 10; inc (ECX))do
+		stdout.put("Please enter a int8: ");
+		getInt8();
+		mov(eax, (type int32 [EBX + ECX]));
+	endfor;
+	
+	for(mov(0,ECX); ECX <10; inc(ECX))do
+		stdout.put("The value in slot ", (type int32 ECX), " is ", (type int8 [EBX + ECX]), nl);
+	endfor;
+	
+	pop(EAX);
+	mem.free(EAX);
+
+end challenge12;

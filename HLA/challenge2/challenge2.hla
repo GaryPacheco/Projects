@@ -1,0 +1,60 @@
+/*
+ * Written by			Gary Pacheco
+ * Created on			29 August 2011
+ * Last modified on		29 August 2011
+ *
+ * Challenge 2. This challenge clears the registers
+ * then displays the value in Hexidecimal and Decimal
+ * Users then input an integer, the program stores that value
+ * in the EBX register and displays the registrers again.
+ */
+
+program challenge2;
+
+#include("stdlib.hhf");
+
+static
+	var1: int32;
+
+begin challenge2;
+
+	//clears the regisrties
+	mov(0, eax);
+	mov(0, ebx);
+	mov(0, ecx);
+	mov(0, edx);
+	
+	//displays registry in Hexidecimal
+	stdout.put("The value of the registry EAX is: ", eax, nl);
+	stdout.put("The value of the registry EBX is: ", ebx, nl);
+	stdout.put("The value of the registry ECX is: ", ecx, nl);
+	stdout.put("The value of the registry EDX is: ", edx, nl);
+	
+	//displays registry in decimal
+	stdout.put("The value of the registry EAX is: ", (type int32 eax), nl);
+	stdout.put("The value of the registry EBX is: ", (type int32 ebx), nl);
+	stdout.put("The value of the registry ECX is: ", (type int32 ecx), nl);
+	stdout.put("The value of the registry EDX is: ", (type int32 edx), nl);
+	
+	//Prompts user for input
+	stdout.put(nl, "Hi users.", nl);
+	stdout.put("Please enter an integer: ");
+	stdin.get(var1);
+	stdout.put(nl);
+	
+	//moves the value to the ebx registry
+	mov(var1, ebx);
+	
+	//displays registry in Hexidecimal after values have changed
+	stdout.put("The value of the registry EAX is: ", eax, nl);
+	stdout.put("The value of the registry EBX is: ", ebx, nl);
+	stdout.put("The value of the registry ECX is: ", ecx, nl);
+	stdout.put("The value of the registry EDX is: ", edx, nl);
+	
+	//displays registry in decimal after values have changed
+	stdout.put("The value of the registry EAX is: ", (type int32 eax), nl);
+	stdout.put("The value of the registry EBX is: ", (type int32 ebx), nl);
+	stdout.put("The value of the registry ECX is: ", (type int32 ecx), nl);
+	stdout.put("The value of the registry EDX is: ", (type int32 edx), nl);
+
+end challenge2;

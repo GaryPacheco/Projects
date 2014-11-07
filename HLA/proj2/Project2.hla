@@ -1,0 +1,45 @@
+/*
+ * HLA Starter
+ *
+ * written by			
+ * created on			18 August 2011
+ * last modified on		21 August 2011
+ *
+ * 
+ *
+ */
+program project2;
+
+#include ("stdlib.hhf");
+
+static
+	inputV: uns16;
+
+begin project2;
+
+	stdout.put("Enter an uns16 value: ");
+	stdin.getu16(); // VAl
+	mov(AX, inputV);
+	
+	
+	mov(15, BX); // n
+	while((type int16 BX) != -1) do
+		
+		//compute 2^n
+		move(1,DX);	
+		for(mov(0,cx); CX < BX; inc(CX)) do
+			shl(1,DX);
+		endfor;
+	
+		//is 2^n <=VAL
+		if(DX <= AX) then
+			sub(DX, AX);
+		endif
+		
+		dec(BX);
+		
+	endwhile;
+	pop(EAX);
+	
+	//show the value in binary here
+end project2;

@@ -1,0 +1,51 @@
+# depslib dependency file v1.0
+1291918087 source:c:\users\owner\desktop\project8\genie.cpp
+	"Genie.h"
+
+1286292692 source:c:\users\owner\desktop\project8\cinreader.cpp
+	"CinReader.h"
+
+1286292696 c:\users\owner\desktop\project8\cinreader.h
+	<iostream>
+	<string>
+	<algorithm>
+	<climits>
+	<sstream>
+
+1292310595 c:\users\owner\desktop\project8\genie.h
+	<iostream>
+	"CinReader.h"
+	<cstdlib>
+
+1292311488 source:c:\users\owner\desktop\project8\main.cpp
+	<iostream>
+	"CinReader.h"
+	"Genie.h"
+	<cstdlib>
+	<ctime>
+
+1292367329 source:c:\users\owner\documents\programming c++\project8\main.cpp
+	<iostream>
+	"CinReader.h"
+	"Genie.h"
+	<cstdlib>
+	<ctime>
+
+1286292696 c:\users\owner\documents\programming c++\project8\cinreader.h
+	<iostream>
+	<string>
+	<algorithm>
+	<climits>
+	<sstream>
+
+1292310595 c:\users\owner\documents\programming c++\project8\genie.h
+	<iostream>
+	"CinReader.h"
+	<cstdlib>
+
+1286292692 source:c:\users\owner\documents\programming c++\project8\cinreader.cpp
+	"CinReader.h"
+
+1292365197 source:c:\users\owner\documents\programming c++\project8\genie.cpp
+	"Genie.h"
+

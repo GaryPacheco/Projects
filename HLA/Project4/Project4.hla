@@ -1,0 +1,336 @@
+/*
+* Project 4
+*
+* Name:			Cheyanne Taylor
+* Date Created:		11/30/2011
+* Last Modified:	12/07/2011
+*
+* This program is to allow the user to choose between
+* sorted and unsorted options. The user will then input numbers
+* into the program. The program stores these into 
+* a singly linked list.
+*
+* Project was created in collaboration with:
+* Gary Pacheco
+* Brenton Stockwell
+* Josh Pollastrini
+* Jonathan Wortham
+* 
+* Sources Used:
+* The Art of Assembly Language - Textbook
+* http://en.wikipedia.org/wiki/Linked_list
+*
+*/
+
+program Project4;
+
+#include("stdlib.hhf");
+
+type
+    slNode: record
+   	 number: uns32;
+   	 nextNode: pointer to slNode;
+    endrecord;
+    
+type pNode: pointer to slNode;
+
+    //allows you to pass pointers in procedures
+    
+static
+    headNode: pNode;
+    memoryAlloc: int32;
+    userInput: int32;
+    loopCounter: int32 := 0;
+    
+procedure UnsortedNode; @returns("EAX"); @forward;
+procedure pushFront (newNode: pNode); @forward;
+procedure printList; @forward;
+procedure sortedNode(newNode: pNode); @forward;
+
+procedure printList;
+begin printList;
+
+//Procedure to print out the list
+    mov(headNode, eax);
+    mov((type slNode [eax]).nextNode, ebx);
+    mov(0,ecx);
+    
+    _LOOP2_:
+    cmp(ecx, loopCounter);
+    je _END_;
+    stdout.put("The address of the node: $", eax, nl);
+    stdout.put("The value inside the node: ", (type slNode [eax]).number, nl);
+    stdout.put("The address of the pointer to the next node: $ ", ebx, nl, nl);
+    mov(ebx, eax);
+    cmp (ebx, NULL);
+    je _END_;
+   	 mov((type slNode [ebx]).nextNode, ebx);
+    jmp _LOOP2_;
+    _END_:
+
+end printList;
+
+procedure pushFront (newNode: pNode);
+begin pushFront;
+//pushes the number to the front of the list
+    RETRY_:
+    mem.alloc(@size(slNode));
+    mov(eax, ebx);
+   	 mov(headNode, (type slNode [eax]).nextNode);
+   	 mov(eax, headNode);
+   	 
+    _LOOP3_:
+    stdout.put("Please insert a number.",nl);
+    try
+   	 stdin.getu32();
+   	 exception (ex.ConversionError);
+   	 stdout.put("That isn't a valid input! Try again: ");
+   	 jmp _LOOP3_;
+   	 exception (ex.ValueOutOfRange)
+   	 stdout.put("That value is out of range! Try again: ");
+   	 jmp _LOOP3_;
+    endtry;
+    mov (headNode, ebx);
+    mov(eax, (type slNode [ebx]).number);
+    
+    inc(loopCounter);
+end pushFront;
+
+procedure pushBack;
+begin pushBack;
+
+//pushs to the back of the list
+_RETRY_:
+
+    mem.alloc(@size(slNode));
+    mov(eax, ebx);
+    _LOOP4_:
+    cmp ((type slNode [eax]).nextNode, null);
+    je _END_;
+    mov((type slNode [eax]).nextNode, eax);
+    jmp _LOOP4_;
+    _END_:
+    
+    mov((type slNode [ebx]).nextNode, ebx);
+    jmp _LOOP4_;
+    
+    stdout.put("Please insert a value: ");
+    try
+   	 stdin.getu32();
+   	 exception (ex.ConversionError);
+   	 stdout.put("That isn't a valid input! Try again.");
+   	 exception (ex.ValueOutOfRange)
+   	 stdout.put("That value is out of range! Try again");
+    endtry;
+    mov (headNode, ebx);
+    mov(eax, (type slNode [ebx]).number);
+
+    inc(loopCounter);
+
+    
+end pushBack;
+
+procedure UnsortedNode;
+begin UnsortedNode;
+
+//Procedure for unsorted list
+    _RETRY_:
+
+    mem.alloc(@size(slNode));
+    mov(eax, ebx);
+    mov(null, (type slNode [eax]).nextNode);
+
+    cmp (headNode, NULL);
+    jne _NULL_;
+   	 mov(eax, headNode);
+   	 jmp _ENDNULL_;
+    _NULL_:
+   	 mov(headNode, ebx);
+   	 mov(ebx, (type slNode [eax]).nextNode);
+   	 mov(eax, headNode);
+    _ENDNULL_:
+
+    _LOOP5_:
+    stdout.put("Please insert a value: ");
+    try
+   	 stdin.getu32();
+   	 exception (ex.ConversionError);
+   	 stdout.put("That isn't a valid input! Try again: ");
+   	 jmp _LOOP5_;
+   	 exception (ex.ValueOutOfRange)
+   	 stdout.put("That value is out of range! Try again: ");
+   	 jmp _LOOP5_;
+    endtry;
+    mov (headNode, ebx);
+    mov(eax, (type slNode [ebx]).number);
+    
+    inc(loopCounter);
+end UnsortedNode;
+
+procedure sortedNode(newNode:pNode);
+begin sortedNode;
+
+//procedure for sorted list
+mem.alloc(@size(slNode));
+mov(eax, memoryAlloc);
+
+// The linked List is Empty
+mov(headNode, eax);
+mov(newNode, ebx);
+
+_LOOP1_:
+   
+if(headNode != NULL && ebx < (type slNode [eax]).number)then
+    //Node for the front of the list
+    mov(newNode, eax);
+    mov(headNode, (type slNode [eax]).nextNode);
+    mov(eax, headNode);
+    inc(loopCounter);
+
+
+else
+    //between two Nodes or the same node
+    while(headNode != NULL && ebx > (type slNode [eax]).number) do
+   	 mov(eax, ebx);
+   	 mov((type slNode [eax]).nextNode, eax);
+    endwhile;
+    mov(ebx, newNode);
+    mov(newNode, (type slNode [ebx]).nextNode);
+    inc(loopCounter);
+
+endif;
+
+    mov(newNode, headNode);
+    inc(loopCounter);
+    jmp _LOOP1_;
+    
+end sortedNode;
+
+begin Project4;
+
+	//clears screen
+	console.cls();
+    
+    //Clear Registers
+    mov(0, EAX);
+    mov(0, EBX);
+    mov(0, ECX);
+    mov(0, EDX);
+    
+    stdout.put(nl, "...::Welcome to List Maker::...", nl);
+    _BEGINNING_:
+    try
+   	 stdout.put(nl,"Which type of list would you like to work with? ", nl);
+   	 stdout.put("[1] Unsorted List", nl);
+   	 stdout.put("[2] Sorted list", nl);
+   	 stdout.put("[0] Quit: ", nl);
+   	 stdout.put("Your Choice: ");
+   	 stdin.getu8();
+   	 exception(ex.ConversionError);
+   		 stdout.put(nl, "That is not a valid input. Try again: ");
+   	 exception(ex.ValueOutOfRange);
+   		 stdout.put("That value is out of range! Try again: ");
+    endtry;
+    
+    //comparisons
+    cmp(eax, 1);
+    je _UNSORTED_;
+    cmp(eax, 2);
+    je _SORTED_;
+    cmp(eax, 0);
+    je _QUIT_;
+    
+    //sorted menu
+    _SORTED_:
+   	 console.cls();
+   	 stdout.put(nl, "...::Sorted List::...", nl);
+   	 stdout.put(nl,"[1] Insert a node", nl);
+   	 stdout.put("[2] Delete a node", nl);
+   	 stdout.put("[3] Print the Linked List", nl);
+   	 stdout.put("[4] Clear the Linked List & start over");
+   	 stdout.put(nl, "Your Choice: ");
+   	 
+   	 try
+   		 stdin.getu8();
+   		 exception(ex.ConversionError);
+   			 stdout.put(nl, "That is not a valid input. Try Again: ");
+   		 exception(ex.ValueOutOfRange);
+   			 stdout.put("That value is out of range! Try Again: ");
+   	 endtry;
+   	 
+   	 //comparison for menu
+   	 cmp(eax, 1);
+   	 je _INSERT_;
+   	 cmp(eax, 2);
+   	 je _DELETE_;
+   	 cmp(eax, 3);
+   	 je _PRINTSORTED_;
+   	 cmp(eax, 4);
+   	 jmp _END_;
+   	 
+   		 _DELETE_:
+   			 stdout.put(nl, "This feature is not yet implemented. :(", nl);
+   			 jmp _SORTED_;
+   		 
+   		 _INSERT_:
+   			 stdout.put(nl, "Please enter an int32: ");
+   			 stdin.geti32();
+   			 sortedNode(eax);
+   			 jmp _SORTED_;
+   	 
+   		 _PRINTSORTED_:
+   			 printList();
+   			 jmp _SORTED_;
+   //Unsorted menu	 
+    _UNSORTED_:
+    	 stdout.put(nl, "...::Unsorted List::...", nl);
+   	 stdout.put("[1] Push a Node to the Front", nl);
+   	 stdout.put("[2] Push a Node to the Back", nl);
+   	 stdout.put("[3] Pop a Node on the Front", nl);
+   	 stdout.put("[4] Pop a Node from the Back", nl);
+   	 stdout.put("[5] Print the Linked List", nl);
+   	 stdout.put("[6] Clear the Linked List", nl, " And start over");
+   	 stdout.put(nl, "Your Choice: ");
+   	 
+   	 try
+   		 stdin.getu8();
+   		 exception(ex.ConversionError);
+   			 stdout.put(nl, "That is not a valid input. Try Again: ");
+   		 exception(ex.ValueOutOfRange);
+   			 stdout.put("That value is out of range! Try Again: ");
+   	 endtry;
+   	 cmp(eax, 1);
+   	 je _PUSHFRONT_;
+   	 cmp(eax, 2);
+   	 je _PUSHBACK_;
+   	 cmp(eax, 3);
+   	 je _POPFRONT_;
+   	 cmp(eax, 4);
+   	 je _POPBACK_;
+   	 cmp(eax, 5);
+   	 je _PRINTUNSORTED_;
+   	 cmp(eax, 6);
+   	 je _END_;
+   	 
+   	 _PUSHFRONT_:
+   		 stdout.put(nl, "This feature is not yet implemented. :(", nl);
+   		 jmp _UNSORTED_;
+   	 _PUSHBACK_:
+   		 stdout.put(nl, "This feature is not yet implemented. :(", nl);
+   		 jmp _UNSORTED_;
+   	 _POPFRONT_:
+   		 stdout.put(nl, "This feature is not yet implemented. :(", nl);
+   		 jmp _UNSORTED_;
+   	 _POPBACK_:
+   		 stdout.put(nl, "This feature is not yet implemented. :(", nl);
+   		 jmp _UNSORTED_;
+   	 _PRINTUNSORTED_:
+   		 printList();
+   		 jmp _UNSORTED_;
+    _END_:
+   	 mov(memoryAlloc, eax);
+   	 mem.free(eax);
+   	 jmp _BEGINNING_;
+    _QUIT_:
+
+end Project4;

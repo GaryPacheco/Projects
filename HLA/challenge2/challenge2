@@ -1,0 +1,60 @@
+/*
+ * Written by			Gary Pacheco
+ * Created on			29 August 2011
+ * Last modified on		29 August 2011
+ *
+ * Project 1. This project is the beginning of input and
+ * output. First output a message to user and the asks for
+ * an input from them and stores the data into a variable.
+ * Then moves the variable into the regeistry of eax.
+ *
+ */
+
+
+program challenge2;
+
+#include("stdlib.hhf");
+
+static
+	var1: int32;
+
+begin challenge2;
+
+	//clears the regisrties
+	mov(0, eax);
+	mov(0, ebx);
+	mov(0, ecx);
+	mov(0, edx);
+	
+	//displays registry in Hexidecimal
+	stdout.put("The value of the registry EAX is: ", eax, nl);
+	stdout.put("The value of the registry EBX is: ", ebx, nl);
+	stdout.put("The value of the registry ECX is: ", ecx, nl);
+	stdout.put("The value of the registry EDX is: ", edx, nl);
+	
+	//displays registry in decimal
+	stdout.put("The value of the registry EAX is: ", (type int32 eax), nl);
+	stdout.put("The value of the registry EBX is: ", (type int32 ebx), nl);
+	stdout.put("The value of the registry ECX is: ", (type int32 ecx), nl);
+	stdout.put("The value of the registry EDX is: ", (type int32 edx), nl);
+	
+	//Prompts user for input
+	stdout.put(nl, "Hello world!", nl);
+	stdout.put("Please enter an integer:", nl);
+	stdin.get(var1);
+	
+	mov(var1, ebx);
+	
+	//displays registry in Hexidecimal after values have changed
+	stdout.put("The value of the registry EAX is: ", eax, nl);
+	stdout.put("The value of the registry EBX is: ", ebx, nl);
+	stdout.put("The value of the registry ECX is: ", ecx, nl);
+	stdout.put("The value of the registry EDX is: ", edx, nl);
+	
+	//displays registry in decimal after values have changed
+	stdout.put("The value of the registry EAX is: ", (type int32 eax), nl);
+	stdout.put("The value of the registry EBX is: ", (type int32 ebx), nl);
+	stdout.put("The value of the registry ECX is: ", (type int32 ecx), nl);
+	stdout.put("The value of the registry EDX is: ", (type int32 edx), nl);
+
+end challenge2;

@@ -1,0 +1,143 @@
+/*
+ * HLA Starter
+ *
+ * written by			Gary Pacheco
+ * created on			October 19, 2011
+ * last modified on		October 19, 2011
+ *
+ * This program takes two user inputs in signed 8-bit form.
+ * one number is positive and one negative. Program then adds
+ * the two numbers and displays in both decimal and binary.
+ * Program then forces both inputs into an unsinged 8-bit form
+ * then adds the two again checking for overflow.
+ *
+ */
+program Challenge9;
+
+#include("stdlib.hhf");
+
+static
+	userIn1: int8;
+	userIn2: int8;
+	val1: uns8;
+	val2: uns8;
+
+procedure showBinary(value: byte);
+
+begin showBinary;
+
+	push(eax);
+	push(ecx);
+	mov(value, al);
+	for (mov(0, cl); cl < 8; inc(cl)) do
+		shl(1, al);
+		if (@c) then
+			stdout.put("1");
+		else
+			stdout.put("0");
+		endif;
+	endfor;
+	
+	pop(ecx);
+	pop(eax);
+
+end showBinary;
+
+procedure getInt;
+
+begin getInt;
+forever
+	try
+	
+		stdin.geti8();
+		unprotected break;
+	anyexception;
+		stdout.put(nl,"Not a valid input");
+	endtry;
+endfor;	
+
+end getInt;
+
+begin Challenge9;
+
+	mov(0,EAX);
+	mov(0,EBX);
+	mov(0,ECX);
+	mov(0,EDX);
+
+	stdout.put(nl,"Hello user.",nl);
+	
+//gets a correct positive number	
+	stdout.put(nl,"Please enter a positive signed 8-bit integer(0-127): ");
+	forever
+		getInt();
+		mov(AL, userIn1);
+			
+			if(userIn1 < 0) then
+				stdout.put(nl,"Not a valid input");
+				stdout.put(nl,"Enter a positive number.",nl);
+			else
+				break;
+			endif;
+	endfor;
+					
+//gets a correct negative number
+
+stdout.put(nl,"Please enter a negative 8-bit integer: ");
+
+	forever
+		getInt();
+		mov(AL, userIn2);
+			
+			if(userIn2 > -1) then
+				stdout.put(nl,"Not a valid input");
+				stdout.put(nl,"Enter a negative number.",nl);
+			else
+				break;
+			endif;
+	endfor;
+	
+//displays users inputs as binary			
+	stdout.put(nl,(type int8 userIn1), " in binary: ");
+	showBinary(userIn1);
+	stdout.put(nl,(type int8 userIn2), " in binary: ");
+	showBinary(userIn2);
+	
+//Adding users inputs and displays in decimal and binary	
+	mov(userIn1, AL);
+	add(userIn2, AL);
+	stdout.put(nl,(type int8 userIn1), " + ",(type int8 userIn2), " = ");
+	stdout.put((type int8 AL),nl);
+	showBinary(userIn1);
+	stdout.put(" + ");
+	showBinary(userIn2);
+	stdout.put(" = ");
+	showBinary(AL);
+	
+// Force users input into an uns8
+	mov(userIn1, BL);
+	mov(BL, val1);
+	mov(0,EBX);
+	mov(userIn2, BL);
+	mov(BL, val2);
+	mov(0,AL);
+	mov(val1, AL);
+	add(val2, AL);
+		if(@c) then
+			stdout.put(nl,"Warning: (Overflow), Adding ", (type uns8 val1), "(");
+			showBinary(val1);
+			stdout.put( ")" );
+			stdout.put(" and ",(type uns8 val2), "(" )
+			showBinary(val2);
+			stdout.put( ")" );
+		else
+			stdout.put(nl, (type uns8 val1), " + ",(type uns8 val2), " = ");
+			stdout.put((type uns8 AL),nl);
+		endif;
+	stdout.put(nl);
+	showBinary(val1);
+	stdout.put(" + ");
+	showBinary(val2);
+	stdout.put(" = ");
+	showBinary(AL);
+end Challenge9;

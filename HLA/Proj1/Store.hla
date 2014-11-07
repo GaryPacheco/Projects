@@ -1,0 +1,150 @@
+/*
+ * Project 1: Store Simulation
+ *
+ * written by			Gary Pacheco
+ * created on			1 September 2011
+ * last modified on		21 September 2011
+ *
+ * This program is to simulate a fruit store. Uses basic math instructions
+ * to subtract the users currency and the amount of fruit left in stock.
+ */
+program StoreSim;
+
+#include("stdlib.hhf");
+
+static
+	credits:	uns32 := 100;
+	apples:		uns32 := 15;
+	appleCost:	uns32 := 15;
+	oranges:	uns32 := 20;
+	orangeCost:	uns32 := 16;
+	kiwis:		uns32 := 17;
+	kiwiCost:	uns32 := 10;
+	watermelons:	uns32 := 14;
+	waterCost:	uns32 := 25;
+	pears:		uns32 := 19;
+	pearCost:	uns32 := 13;
+	totalCost:	uns32 := 0;
+	pay:		uns32 := 0;
+	change:		uns32 := 0;
+	choice:		uns32;
+
+begin StoreSim;
+
+	console.cls();
+	
+	//clearing the registers
+	mov(0,EAX);
+	mov(0,EBX);
+	mov(0,ECX);
+	mov(0,EDX);
+
+	forever
+		stdout.put(nl, "Hey shopper!", nl);
+		stdout.put("You have ", credits, " credits. ", nl);
+		stdout.put("You have ", totalCost, " credits worth of fruit in your cart.", nl);
+		stdout.put("What would you like to buy today?", nl, nl);
+	
+		stdout.put("[1] Apples", stdio.tab, apples, stdio.tab " at 15 credits each.", nl);
+		stdout.put("[2] Oranges", stdio.tab, oranges, stdio.tab " at 16 credits each.", nl);
+		stdout.put("[3] Kiwis", stdio.tab, kiwis, stdio.tab, " at 10 credits each.", nl);
+		stdout.put("[4] Watermelons", stdio.tab, watermelons, stdio.tab, " at 25 credits each.", nl);
+		stdout.put("[5] Pears", stdio.tab, pears, stdio.tab, " at 13 credits each.", nl);
+		stdout.put("[0] I'm finished shopping.", nl);
+		stdout.put("Please enter your choice (0-5): ");
+		stdin.get (choice);
+
+			if (choice == 1) then
+				if(apples < 1) then
+					stdout.put(nl, "Sorry, all out of apples");
+				else
+					dec(apples);
+					mov(totalCost, EAX);
+					add(appleCost, EAX);
+					mov(EAX, totalCost);
+					stdout.put(nl, totalCost);
+				endif;
+			elseif (choice == 2) then
+				if(oranges < 1) then
+					stdout.put(nl, "Sorry, all out of oranges");
+				else
+					dec(oranges);
+					mov(totalCost, EAX);
+					add(orangeCost, EAX);
+					mov(EAX, totalCost);
+					stdout.put(nl, totalCost);
+				endif;
+			elseif (choice == 3) then
+				if(kiwis < 1) then
+					stdout.put(nl, "Sorry, all out of kiwis");
+				else
+					dec(kiwis);
+					mov(totalCost, EAX);
+					add(kiwiCost, EAX);
+					mov(EAX, totalCost);
+					stdout.put(nl, totalCost);
+				endif;
+			elseif (choice == 4) then
+				if(watermelons < 1) then
+					stdout.put(nl, "Sorry, all out of watermelons");
+				else
+					dec(watermelons);
+					mov(totalCost, EAX);
+					add(waterCost, EAX);
+					mov(EAX, totalCost);
+					stdout.put(nl, totalCost);
+				endif;
+			elseif (choice == 5) then
+				if(pears < 1) then
+					stdout.put(nl, "Sorry, all out of pears");
+				else
+					dec(pears);
+					mov(totalCost, EAX);
+					add(pearCost, EAX);
+					mov(EAX, totalCost);
+					stdout.put(nl, totalCost);
+				endif;
+			elseif (choice == 0) then
+				if (totalCost > 0) then
+					mov(totalCost, EBX);
+					mov(pay, ECX);
+					stdout.put(nl, "Please pay ", totalCost, " credits.", nl);
+					stdin.get(pay);
+					mov(credits, ECX);
+					if (pay > ECX) then
+						stdout.put(nl, "You don't have enough credits.", nl, nl);
+					endif;
+					if (pay >= EBX) then
+						mov(pay, EAX);
+						sub(totalCost, EAX);
+						mov(EAX, change);
+						mov(0, EAX);
+						mov(credits, EAX);
+						sub(totalCost, EAX);
+						mov(EAX, credits);
+						mov(0, EAX);
+						mov(credits, EAX);
+						add(change, EAX);
+						mov(EAX, credits);
+						stdout.put(nl, "Thanks for shopping. You have ", credits, " credits left.", nl);
+						break;
+					else if (pay < EBX) then
+						while (ECX < totalCost) do
+							mov(totalCost, EAX);
+							sub(pay, EAX);
+							mov(EAX, totalCost);
+							mov(0, EAX);
+							mov(credits, EAX);
+							sub(pay, EAX);
+							mov(EAX, credits);
+							stdout.put(nl, "You still owe ", totalCost, " credits.", nl);
+							stdout.put("You have ", credits, " credits.", nl);
+						endwhile;
+						break;
+					endif;
+				endif;
+			endif;
+		endif;
+	endfor;
+
+end StoreSim;

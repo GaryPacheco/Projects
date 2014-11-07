@@ -1,0 +1,55 @@
+/*
+ * CSCI 10: Challenge 15
+ *
+ * Name:			Gary Pacheco
+ * Created on:			December 5, 2011
+ * Last modified:		December 7, 2011
+ *
+ */
+ 
+procedure insert(newNode: pnode);
+begin insert;
+
+	//Allocating memory for nodes
+	mem.alloc(@size (node));
+	mov(EAX, ECX);
+
+	//Moving head node to EAX
+	mov(head, EAX);
+	
+	//avoid memory comparisons
+	mov(newNode, EBX);
+	
+	//If there is an empty list
+	if(head == NULL) then
+		//Moving EAX to the head node
+		mov(EAX, head);
+		//Moving NULL to the next node in the list
+		mov(NULL, (type node [EAX]).nextNode);
+
+	//If newNode needs to be inserted in to the front of the list
+	elseif(head != NULL && EBX < (type node[EAX]).number) then
+		//moving newNode into EAX
+		mov(newNode, EAX);
+		//moving head into the nextNode
+		mov(head, (type node[EAX]).nextNode);
+		//moving EAX into the head
+		mov(EAX, head);
+
+	//All other cases
+	else
+		while (head != NULL && EBX > (type node [EAX]).number) do
+			//Preserving EAX
+			mov(EAX, EBX); 
+			//moving next node into EAX
+			mov((type node [EAX]).nextNode, EAX);
+		endwhile;
+		mov(EAX, newNode);
+		mov(newNode,(type node [EBX]).nextNode);
+	endif;
+	
+	//frees memory
+	mov(ECX, EAX);
+	mem.free(EAX);
+	
+end insert;

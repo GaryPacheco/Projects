@@ -1,0 +1,163 @@
+/*
+ * Challenge8
+ *
+ * written by			Gary Pacheco
+ * created on			12 October 2011
+ * last modified on		12 October 2011
+ *
+ * Program asks for two inputs. Program changes
+ * the inputs to binary. Then uses the intructions
+ * of And, OR, Xor, and Not. Also check if
+ * if the numbers are even or odd.
+ */
+
+
+program challenge8;
+
+#include ("stdlib.hhf");
+
+
+procedure showBinary(value: byte);
+
+begin showBinary;
+
+	push(eax);
+	push(ecx);
+	mov(value, al);
+	for (mov(0, cl); cl < 8; inc(cl)) do
+		shl(1, al);
+		if (@c) then
+			stdout.put("1");
+		else
+			stdout.put("0");
+		endif;
+	endfor;
+	
+	pop(ecx);
+	pop(eax);
+
+end showBinary;
+
+procedure parity(value: byte);
+begin parity;
+
+	//Checks to see if the numbers are odd or even
+	push(eax);
+	mov(value, al);
+	and(1, value);
+	if(value == 1) then
+		stdout.put("Odd");
+	elseif (value == 0) then 
+		stdout.put("Even");
+	endif;
+	pop(eax);
+	
+end parity;
+
+procedure getUns8;
+begin getUns8;
+
+	forever
+	
+	try
+		stdin.getu8();
+			unprotected break;
+		anyexception
+			stdout.put("That is not a valid input.");
+		endtry;
+	endfor;
+end getUns8;
+begin challenge8;
+
+	//Clearing the Registers
+	mov(0,eax);
+	mov(0,ebx);
+	mov(0,ecx);
+	mov(0,edx);
+
+	//Asks for First 8 bit value
+	stdout.put(nl,"Please enter an 8-bit integer: ");
+	getUns8();
+	push(eax);
+	
+	//Asks for Second 8 bit value
+	stdout.put(nl,"Please enter another 8-bit integer: ");
+	getUns8();
+	mov(eax,ebx);
+	pop(eax);
+	
+	
+	//Changes the values into binary
+	push(eax);
+	push(ebx);
+	stdout.put(nl,(type uns8 al), " ");
+	parity(al);
+	stdout.put(" in binary %");
+	showBinary(al);
+	stdout.put(nl,(type uns8 bl), " ");
+	parity(bl);
+	stdout.put(" in binary %");
+	showBinary(bl);
+	pop(ebx);
+	pop(eax);
+	
+	//And instruction of the two inputs together
+	push(eax);
+	push(ebx);
+		stdout.put(nl,nl,"%");
+		showBinary(al);
+		stdout.put(" AND %");
+		showBinary(bl);
+		stdout.put(" is %");
+	and(al,bl);
+	showBinary(bl);
+	pop(ebx);
+	pop(eax);
+	
+	//Or instruction of the two inputs
+	push(eax);
+	push(ebx);
+		stdout.put(nl,"%");
+		showBinary(al);
+		stdout.put(" Or %");
+		showBinary(bl);
+		stdout.put(" is %");
+	or(al,bl);
+	showBinary(bl);
+	pop(ebx);
+	pop(eax);
+	
+	//Xor Instruction of the two inputs
+	push(eax);
+	push(ebx);
+		stdout.put(nl,"%");
+		showBinary(al);
+		stdout.put(" Xor %");
+		showBinary(bl);
+		stdout.put(" is %");
+	xor(al,bl);
+	showBinary(bl);
+	pop(ebx);
+	pop(eax);
+	
+	//Not Instruction of the two inputs
+	push(eax);
+	push(ebx);
+		stdout.put(nl,"%");
+		showBinary(al);
+		stdout.put(" Not %");
+			not(al);
+			showBinary(al);
+			
+		stdout.put(nl,"%");
+		showBinary(bl);
+		stdout.put(" Not %");
+			not(bl);
+			showBinary(bl);
+	pop(ebx);
+	pop(eax);
+	
+	
+	
+	
+end challenge8;

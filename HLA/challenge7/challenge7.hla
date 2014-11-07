@@ -1,0 +1,101 @@
+/*
+ * Challenge7
+ *
+ * written by			Gary Pacheco
+ * created on			5 October 2011
+ * last modified on		5 October 2011
+ *
+ * This program shifts and rotates the users input
+ * to practice and understand what each of the
+ * commands do. Then answers a question asked by 
+ * Boyd.
+ */
+
+program challenge7;
+
+#include("stdlib.hhf");
+
+static
+	userInput: uns32;
+
+begin challenge7;
+
+	//Clearing Registers
+	  mov(0,EAX);
+	  mov(0,EBX);
+	  mov(0,ECX);
+	  mov(0,EDX);
+	
+
+	stdout.put(nl,"Hello User!");
+	
+//loop to get a correct uns32 integer
+	forever
+	
+		stdout.put(nl,"Please enter an uns32 integer: ");
+		
+		try
+			stdin.getu32();
+			unprotected break;
+			
+		anyexception
+		
+			stdout.put(nl,"This value is inconcievable!");
+		endtry;
+	endfor;
+	
+//moving the getu32 into a variable
+	mov(EAX, userInput);
+	
+		stdout.put(nl,"Your input is: ", userInput);
+	
+//Rotating Right &  being funny :)
+	stdout.put(nl,"Now Rotating your input Right.");
+	stdout.put(nl,"Please wait while I load your program. Loading...");
+	
+	for(mov(0,CX); CX <= 31; inc(CX)) do
+		ROR(1, EAX);
+		stdout.put(nl,"Hex: ", EAX, stdio.tab, "Decimal: ", (type uns32 EAX));
+	endfor;
+	
+	stdout.put(nl,nl,"Please hit enter to continue...",nl);
+	stdin.readLn();
+//Rotating Left	
+	stdout.put(nl,"Now Rotating your input Left.",nl);
+	mov(userInput,EAX);
+	for(mov(0,CX); CX <= 31; inc(CX)) do
+		ROL(1, EAX);
+		stdout.put(nl,"Hex: ", EAX, stdio.tab, "Decimal: ", (type uns32 EAX));
+	endfor;
+	
+	stdout.put(nl,nl,"Please hit enter to continue...",nl);
+	stdin.readLn();
+//Shifting Right
+	stdout.put(nl,"Now Shifting your input Right.",nl);
+	mov(userInput,EAX);
+	for(mov(0,CX); CX <= 31; inc(CX)) do
+	shr(1,EAX);
+		stdout.put(nl,"Hex: ", EAX, stdio.tab, "Decimal: ", (type uns32 EAX));
+	endfor;
+
+	stdout.put(nl,nl,"Please hit enter to continue...",nl);
+	stdin.readLn();
+//Shifting Left
+	stdout.put(nl,"Now Shifting your input Left.",nl);
+	mov(userInput,EAX);
+	for(mov(0,CX); CX <= 31; inc(CX)) do
+	shl(1,EAX);
+		if(@c) then
+			stdout.put("1");
+		else
+			stdout.put("0");
+		endif;
+	endfor;
+
+stdout.put(nl,nl, "The key difference between shift and rotate, is that rotate wraps around",nl);
+stdout.put("and comes back to the original number. Where shift loses the values after it changes.",nl);
+
+
+
+
+end challenge7;

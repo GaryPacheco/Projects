@@ -1,0 +1,56 @@
+/*
+ * HLA challenge5
+ *
+ * written by			Gary Pacheco
+ * created on			18 September 2011
+ * last modified on		21 September 2011
+ *
+ * This program is to allow user to input two 16 bit integers
+ * and the program then divides and displays the remaider and the
+ * dividend. Then does the same for a 32-bit integer.
+ *
+ */
+program challenge5;
+
+#include("stdlib.hhf");
+
+static
+
+	x: int16;
+	y: int16;
+	a: uns32;
+	b: uns32;
+
+begin challenge5;
+
+mov(0, EAX);
+mov(0, EDX);
+
+stdout.put(nl,"Hello User!",nl, nl);
+
+stdout.put("Please enter an signed 16-bit integer: ");
+stdin.get(x);
+stdout.put(nl, "Please enter another signed 16-bit integer: ");
+stdin.get(y);
+
+mov(x, Ax);
+cwd();
+idiv(y, Dx:Ax);
+
+stdout.put(nl, "Here is the result for the 16-bit integers: ", nl, "Dividend ",(type int16 Ax), nl,"Remainder ", (type int16 Dx));
+
+mov(0, EAX);
+mov(0, EDX);
+
+stdout.put(nl,nl,"Please enter a unsigned 32-bit integer: ");
+stdin.get(a);
+stdout.put(nl, "Please enter a unsigned 32-bit integer: ");
+stdin.get(b);
+
+mov(a, EAX);
+mov(0, EDX);
+div(b, EDX:EAX);
+
+stdout.put(nl, "Here is the result for the 32-bit integers: ", nl, "Dividend ",(type int32 EAX), nl,"Remainder ",(type int32 EDX));
+
+end challenge5;

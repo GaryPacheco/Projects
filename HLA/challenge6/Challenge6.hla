@@ -1,0 +1,74 @@
+/*
+ * Challenge6
+ *
+ * written by			Gary Pacheco
+ * created on			26 September 2011
+ * last modified on		28 September 2011
+ *
+ * Challenge 6 program goes through arithmetics 
+ * without using variables or constants, just 
+ * registers. Practices the use of the push and pop
+ * feature.
+ *
+ */
+program Challenge6;
+
+#include("stdlib.hhf");
+
+begin Challenge6;
+
+	console.cls();
+//Zeroing out the registers
+	mov(0, EAX);
+	mov(0, EBX);
+	mov(0, ECX);
+	mov(0, EDX);
+	
+//prompt the user and store values in the correct registers
+	stdout.put("Hello User", nl);
+	stdout.put("Please enter an unsigned 32-bit integer: ");
+	stdin.getu32();
+	mov(EAX, ECX);
+	
+	stdout.put(nl, "Please enter another unsigned 32-bit integer: ");
+	stdin.getu32();
+	mov(EAX, EDX);
+	
+//addition arithmetic and storing values
+	mov(ECX, EAX);
+	mov(EDX, EBX);
+	add(EAX, EBX);
+	push(EBX);
+	
+//subtraction arithmetic
+	mov(EDX, EBX);
+	sub(EBX, EAX);
+	push(EAX);
+	
+//multiplication arithmetic
+	mov(ECX, EAX);
+	push(EDX);
+	intmul(EBX, EAX);
+	pop(EDX);
+	push(EAX);
+	
+//division arithmetic
+	mov(ECX, EAX);
+	push(EDX);
+	mov(0, EDX);
+	div(EBX, EDX:EAX);
+	pop(EDX);
+	push(EAX);
+	
+//display values
+	pop(EAX);
+		stdout.put(nl, (type uns32 ECX), " / ", (type uns32 EDX), " = ", (type uns32 EAX));
+	pop(EAX);
+		stdout.put(nl, (type uns32 ECX), " * ", (type uns32 EDX), " = ", (type uns32 EAX));
+	pop(EAX);
+		stdout.put(nl, (type uns32 ECX), " - ", (type uns32 EDX), " = ", (type uns32 EAX));
+	pop(EAX);
+		stdout.put(nl, (type uns32 ECX), " + ", (type uns32 EDX), " = ", (type uns32 EAX));
+	
+
+end Challenge6;

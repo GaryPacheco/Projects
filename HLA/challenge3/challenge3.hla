@@ -1,0 +1,64 @@
+/*
+ * Written by			Gary Pacheco
+ * Created on			7 September 2011
+ * Last modified on		7 September 2011
+ *
+ * This program asks the user which register they would
+ * like to input numbers into. They have the choice of
+ * 8 bit, 16 bit, or 32 bit, and the program then moves
+ * the integer they input into the appropriate register.
+ *
+ */
+program challenge3;
+
+#include("stdlib.hhf");
+
+static
+	choice: uns8;
+	eightb: int8;
+	sixtb:	int16;
+	thirtb: int32;
+
+begin challenge3;
+
+mov(0, EAX);
+
+stdout.put(nl, "Hello user!");
+
+forever
+	stdout.put(nl, nl, "Which register would you like to view?", nl);
+	stdout.put("[1] 8 bit, AL Register.", nl);
+	stdout.put("[2] 16 bit, AX Register.", nl);
+	stdout.put("[3] 32 bit, EAX Register.", nl);
+	stdout.put("[0] Quit the program.", nl);
+	stdout.put("Your Choice: ");
+	stdin.get(choice);
+
+	if (choice = 1) then
+		stdout.put(nl, "Please enter an 8 bit integer: ");
+		stdin.get(eightb);
+		mov(eightb, AL);
+
+	elseif (choice = 2) then
+		stdout.put(nl, "Please enter an 16 bit integer: ");
+		stdin.get(sixtb);
+		mov(sixtb, AX);
+
+	elseif (choice = 3) then
+		stdout.put(nl, "Please enter an 32 bit integer: ");
+		stdin.get(thirtb);
+		mov(thirtb, EAX);
+
+	else
+		break;
+	endif;
+
+	stdout.put(nl, "The value of AL:", stdio.tab, AL);
+	stdout.put(nl, "The value of AX: ",stdio.tab, AX);
+	stdout.put(nl, "The value of EAX: ",stdio.tab, EAX);
+
+endfor;
+
+
+
+end challenge3;

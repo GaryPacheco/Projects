@@ -1,0 +1,52 @@
+program LinkedList;
+
+#include ("stdlib.hhf");
+
+type
+	slNode: record
+		number: int32;
+		nextNode: pointer to slNode;
+	endrecord;
+	
+static
+	headNode: pointer to slNode := NULL;
+	
+begin LinkedList;
+
+	mem.alloc(@size(slNode));
+	mov(EAX, headNode);
+	mov(NULL, (type slNode [EAX]).nextNode);
+	
+	stdout.put("Please enter an int32 value: ");
+	stdin.geti32();
+	
+	mov(headNode, EBX);
+	mov(EAX, (type slNode [EBX]).number);
+	
+	//second node -- connect to backof headNode
+	mem.alloc(@size(slNode));
+	mov(EAX, EBX);
+	mov(NULL, (type slNode [EBX]).nextNode);
+	
+	mov(headNode, EAX);
+	mov(EBX, (type slNode[EAX]).nextNode);
+	
+	stdout.put("Please enter an int32 value: ");
+	stdin.geti32();
+	mov(eax, (type slNode [EBX]).number);
+	
+	//print the nodes
+	mov(headNode, EAX);
+	while(EAX != NULL) do
+		stdout.pur((type slNode [EAX]).number, nl);
+		mov((type slNode [EAX[.nextNode, EAX);
+	endwhile;
+	
+	//mem.free the nodes
+	mov(headNode, EAX);
+	while(EAX != NULL) do
+		mem.free(EAX); // this isnt entirely correct!!!
+		mov((type slNode [EAX]).nextNode, EAX);
+	endwhile;
+	
+end LinkedList;

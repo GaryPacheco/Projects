@@ -1,0 +1,59 @@
+/*
+ * HLA Starter
+ *
+ * written by			
+ * created on			 2011
+ * last modified on		 2011
+ *
+ * This program is provided as an example of source code documentation
+ * for CSCI 10 at Butte College. A brief description should be provided
+ * for each program you implement in this course.
+ *
+ */
+program Starter;
+
+#include("stdlib.hhf");
+
+static
+	number: uns32 := 100;
+
+begin Starter;
+
+	stdout.put("This is a test program", nl, nl);
+	stdout.newln();
+	
+	stdout.put(stdio.tab, "tabbed over", nl);
+
+	if (number < 50) then
+		stdout.put("A small number.", nl);
+	elseif (number < 100) then
+		stdout.put("A slightly larger number.", nl);
+	else
+		stdout.put("A large number.", nl);
+	endif;
+	
+	forever
+		stdout.put(number, "bottles of beer on the wall.", nl);
+		dec(number);
+		if(number < 1) then
+			break;
+		endif;
+	endfor;
+	
+	for (move(0, ECX); ECX < 10; inc(ECX)) do
+
+	endfor;
+	while (number < 5) do
+		inc(number)
+	endwhile;
+	
+	stdout.put("enter an uns32 value: ");
+	stdin.get(number);
+	
+	mov(number, EAX);
+	stdout.put(EAX: ", EAX, nl);
+	stdout.put("AX: ", AX, nl);
+	stdout.put("AH: ", AH, nl);
+	stdout.put("AL: ", Al, nl);
+	
+end Starter;

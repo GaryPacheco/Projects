@@ -1,0 +1,89 @@
+/*
+ * HLA Starter
+ *
+ * written by			Gary Pacheco
+ * created on			12 September 2011
+ * last modified on		14 September 2011
+ *
+ * This program asks user for two numbers of their chioce.
+ * Those numbers are added, subtracted, and multiplied.
+ * They are displayed and tested for overflow.
+ * 
+ *
+ */
+ 
+program challenge4;
+
+#include("stdlib.hhf");
+
+static
+	variable1:	int16;
+	variable2:	int16;
+	variableAdd:	int32;
+	variableSub:	int32;
+	variableMult:	int32;
+
+begin challenge4;
+
+	console.cls();
+
+	//clears the registers
+	mov(0, EAX);
+	mov(0, ebx);
+	mov(0, ecx);
+	mov(0, edx);
+
+	stdout.put("Howdy user!");
+	stdout.put(nl, "Please enter a number: ");
+	stdin.get(variable1);
+	stdout.put("Please enter a second number: ");
+	stdin.get(variable2);
+
+	
+	//addition of variable1 and variable2
+	mov(variable1, AX);
+	add(variable2, AX);
+		//overflow error
+		if (@o) then
+			stdout.put(nl,nl,"Error: Overflow");
+		endif;
+	//Displays negative number
+	cwde();
+	mov(EAX, variableAdd);
+	stdout.put(nl, nl, variable1, " + ", variable2, " = ", variableAdd);
+
+	
+	//clear EAX
+	mov(0, EAX);
+
+	
+	//subtraction of variable1 and variable2
+	mov(variable1, AX);
+	sub(variable2, AX);
+		//overflow error
+		if (@o) then
+			stdout.put(nl, nl,"Error: Overflow");
+		endif;
+	//Displays negative number
+	cwde();
+	mov(EAX, variableSub);
+	stdout.put(nl, variable1, " - ", variable2, " = ", variableSub);
+
+	
+	//clear EAX
+	mov(0, EAX);
+
+	
+	//multiplication of variable1 and variable2
+	mov(variable1, AX);
+	intmul(variable2, AX);
+		//overflow error
+		if (@o) then
+			stdout.put(nl, nl,"Error: Overflow");
+		endif;
+	//negative number
+	cwde();
+	mov(EAX, variableMult);
+	stdout.put(nl, variable1, " * ", variable2, " = ", variableMult);
+
+end challenge4;
